@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "storage_sign_display",
+  "version": "${version}",
+  "name": "Storage Sign Display",
+  "description": "Improves the visibility of storage signs in Minecraft servers",
+  "authors": ["a2288"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/storage_sign_display/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.github.a2288.storage_sign_display.client.StorageSignDisplayClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "storage_sign_display.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
