@@ -1,0 +1,2 @@
+# storage-sign-display
+マインクラフトのサーバーにstorage signがインストールされている場合の視認性向上mod
