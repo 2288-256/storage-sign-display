@@ -58,7 +58,7 @@ public abstract class ItemSizeDisplayMixin {
     }
 
     private String formatItemCount(long totalItemCount) {
-        if (totalItemCount < 0) return "Error";
+        if (totalItemCount < 0) return "Invalid count";
         if (totalItemCount == 0) return "0";
         
         long numLargeChests = totalItemCount / StorageSignConstants.ITEMS_PER_LARGE_CHEST;
