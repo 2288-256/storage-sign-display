@@ -44,8 +44,8 @@ public class StorageSignDisplayClient implements ClientModInitializer {
         return RESOLVED_ITEM_CACHE.computeIfAbsent(hash, k -> {
 
             NbtCompound display = stack.getSubNbt("display");
-            if (display != null && display.contains("Lore", 9)) {
-                NbtList lore = display.getList("Lore", 8);
+            if (display != null && display.contains("Lore", StorageSignConstants.NBT_LIST_TYPE)) {
+                NbtList lore = display.getList("Lore", StorageSignConstants.NBT_STRING_TYPE);
                 if (lore.size() >= 1) {
                     try {
                         String itemJson = lore.getString(0);
