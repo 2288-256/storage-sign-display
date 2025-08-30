@@ -137,3 +137,5 @@ gradle-app.setting
 .bsp
 
 .github/copilot/*
+
+.idea/runConfigurations/
