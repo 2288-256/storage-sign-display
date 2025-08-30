@@ -15,20 +15,11 @@ public class StorageSignConstants {
     
     // レンダリング関連
     public static final float FONT_SCALE = 0.5f;
-    public static final float Z_OFFSET = 400.0f;
-    public static final float Z_SCALE = 1.0f;
-    public static final float TEXT_X_OFFSET = 18.0f;
+    public static final float TEXT_X_OFFSET = 19.75f;
     public static final float TEXT_X_MARGIN = 2.0f;
-    public static final float TEXT_Y_OFFSET = 6.0f;
+    public static final float TEXT_Y_OFFSET = 3.0f;
     public static final float TEXT_Y_MARGIN = 2.0f;
-    public static final float LINE_SPACING = 7.5f;
-    public static final int WHITE_COLOR = 0xFFFFFF; // 16777215
-    public static final int LIGHT_LEVEL = 15728880;
-    
-    // NBT関連
-    public static final int NBT_LIST_TYPE = 9;
-    public static final int NBT_STRING_TYPE = 8;
-    public static final int LORE_ITEM_NAME_INDEX = 0;
-    public static final int LORE_ITEM_COUNT_INDEX = 1;
-    public static final int MINIMUM_LORE_SIZE = 2;
+    public static final float LINE_SPACING = 9f;
+    public static final int WHITE_COLOR = -1; // white
+
 }

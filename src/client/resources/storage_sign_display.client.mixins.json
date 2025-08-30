@@ -4,8 +4,7 @@
   "package": "com.github.a2288.storage_sign_display.client.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "ItemSizeDisplayMixin",
-    "ItemTextureMixin"
+    "DrawContextMixin"
   ],
   "injectors": {
     "defaultRequire": 1

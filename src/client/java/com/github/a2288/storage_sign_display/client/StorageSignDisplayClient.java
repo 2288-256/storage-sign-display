@@ -1,21 +1,22 @@
 package com.github.a2288.storage_sign_display.client;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class StorageSignDisplayClient implements ClientModInitializer {
 
-    private static final Map<Integer, ItemStack> RESOLVED_ITEM_CACHE = new HashMap<>();
-    private static final Map<Integer, Boolean> IS_STORAGE_SIGN_CACHE = new HashMap<>();
+    private static final Map<Integer, ItemStack> RESOLVED_ITEM_CACHE = new ConcurrentHashMap<>();
+    private static final Map<Integer, Boolean> IS_STORAGE_SIGN_CACHE = new ConcurrentHashMap<>();
 
     @Override
     public void onInitializeClient() {
@@ -26,11 +27,11 @@ public class StorageSignDisplayClient implements ClientModInitializer {
             return false;
         }
 
-        int hash = stack.getNbt() != null ? stack.getNbt().hashCode() : 0;
+        int hash = stack.hashCode();
 
         return IS_STORAGE_SIGN_CACHE.computeIfAbsent(hash, k -> {
-            boolean result = stack.hasCustomName() && "StorageSign".equals(stack.getName().getString());
-            return result;
+            Text customName = stack.get(DataComponentTypes.CUSTOM_NAME);
+            return customName != null && "StorageSign".equals(customName.getString());
         });
     }
 
@@ -39,28 +40,23 @@ public class StorageSignDisplayClient implements ClientModInitializer {
             return stack;
         }
 
-        int hash = stack.getNbt() != null ? stack.getNbt().hashCode() : 0;
+        int hash = stack.hashCode();
 
         return RESOLVED_ITEM_CACHE.computeIfAbsent(hash, k -> {
-
-            NbtCompound display = stack.getSubNbt("display");
-            if (display != null && display.contains("Lore", StorageSignConstants.NBT_LIST_TYPE)) {
-                NbtList lore = display.getList("Lore", StorageSignConstants.NBT_STRING_TYPE);
-                if (lore.size() >= 1) {
+            LoreComponent loreComponent = stack.get(DataComponentTypes.LORE);
+            if (loreComponent != null) {
+                List<Text> loreLines = loreComponent.lines();
+                if (!loreLines.isEmpty()) {
                     try {
-                        String itemJson = lore.getString(0);
-                        Text itemText = Text.Serializer.fromJson(itemJson);
+                        Text itemText = loreLines.get(0);
+                        String rawItemName = itemText.getString();
 
-                        if (itemText != null) {
-                            String rawItemName = itemText.getString();
-                            String itemName = rawItemName.toLowerCase();
-                            Identifier itemId = new Identifier(itemName);
+                        Identifier itemId = Identifier.tryParse(rawItemName.toLowerCase());
 
-                            if (Registry.ITEM.containsId(itemId)) {
-                                ItemStack resolvedItem = new ItemStack(Registry.ITEM.get(itemId));
-                                return resolvedItem;
-                            }
+                        if (itemId != null && Registries.ITEM.containsId(itemId)) {
+                            return new ItemStack(Registries.ITEM.get(itemId));
                         }
+
                     } catch (Exception e) {
                     }
                 }
