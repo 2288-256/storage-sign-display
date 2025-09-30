@@ -25,9 +25,27 @@ public class StorageSignDisplayClient implements ClientModInitializer {
     private static final Map<Integer, Boolean> IS_STORAGE_SIGN_CACHE = new ConcurrentHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(StorageSignDisplayClient.class);
 
+    private static UpdateChecker checker;
     @Override
     public void onInitializeClient() {
         Config.load();
+
+        String modId = "storage_sign_display";
+        String modrinthSlug = "storage-sign-display";
+        String currentVersion = FabricLoader.getInstance()
+                .getModContainer(modId)
+                .map(c -> c.getMetadata().getVersion().getFriendlyString())
+                .orElse("0.0.0");
+
+        long ttlMillis = 24L * 60L * 60L * 1000L;
+        boolean enabled = true;
+
+        checker = new UpdateChecker(modId, modrinthSlug, currentVersion, ttlMillis, enabled);
+
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            checker.checkAsync();
+        });
     }
 
     public static boolean isStorageSign(ItemStack stack) {
