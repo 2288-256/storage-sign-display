@@ -1,8 +1,5 @@
 package com.github.a2288.storage_sign_display.client;
 
-/**
- * Constants used throughout the Storage Sign Display mod.
- */
 public class StorageSignConstants {
     // ストレージ関連
     public static final long ITEMS_PER_STACK = 64L;
