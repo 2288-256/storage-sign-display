@@ -12,6 +12,9 @@
   "entrypoints": {
     "client": [
       "com.github.a2288.storage_sign_display.client.StorageSignDisplayClient"
+    ],
+    "modmenu": [
+      "com.github.a2288.storage_sign_display.client.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -23,6 +26,13 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "yet_another_config_lib_v3": ">=3.8.0+1.21.6-fabric",
+    "modmenu": ">=15.0.0"
+  },
+  "custom": {
+    "modmenu": {
+      "update_checker": true
+    }
   }
 }
